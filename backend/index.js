@@ -22,16 +22,19 @@ app.get("/languages", (req, res)=>{
   const querySelect = "SELECT * FROM all_languages"
   db.query(querySelect, (err, data) => {
     if (err) return res.json(err)
-    return res.json(data)
+      return res.json(data);
   })
 })
 
 app.post("/languages", (req, res)=>{
-    const queryInsert = "INSERT INTO languages (language_id, name, location_id) VALUES (?)"    
-    const values = [3, 'teste', 1]
+    const queryInsert = "INSERT INTO language (name, location_id) VALUES (?)";
+    const values = [
+      req.body.title,
+      req.body.location
+    ];
     db.query(queryInsert, [values], (err, data) => {
       if (err) return res.json(err)
-      return res.json(data)
+      return res.json("Language has been created!")
     })
   })
 
