@@ -59,6 +59,18 @@ app.get("/languages", (req, res) => {
   });
 });
 
+app.post("/languages", (req, res) => {
+  const languages = "INSERT INTO language (name, location_id) VALUES (?)";
+  const values = [
+    req.body.name, 
+    req.body.location_id
+  ];
+  connection.query(queryInsert, [values], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("Language has been created!");
+  });
+});
+
 app.get("/words", (req, res) => {
   const querySelect = "SELECT * FROM `all_words`";
   connection.query(querySelect, (err, data) => {
