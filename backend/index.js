@@ -69,7 +69,8 @@ app.post("/languages", (req, res) => {
 });
 
 app.get("/words", (req, res) => {
-  const querySelect = "SELECT * FROM `all_words`";
+  const querySelect = "SELECT * FROM "
+                      "all_words";
   connection.query(querySelect, (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
@@ -86,9 +87,7 @@ app.post("/words", (req, res) => {
 });
 
 app.post("/translation", (req, res) => {
-  const queryInsert =
-    "INSERT INTO translation (word_id, translation_language_id, translation) ";
-  ("VALUES ((select max(word_id) from word), ?, ?)");
+  const queryInsert = "INSERT INTO translation (word_id, translation_language_id, translation) VALUES ((select max(word_id) from word), ?, ?)";
 
   const values = [req.body.translation_language_id, req.body.translation];
 
