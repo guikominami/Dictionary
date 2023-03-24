@@ -61,10 +61,7 @@ app.get("/languages", (req, res) => {
 
 app.post("/languages", (req, res) => {
   const languages = "INSERT INTO language (name, location_id) VALUES (?)";
-  const values = [
-    req.body.name, 
-    req.body.location_id
-  ];
+  const values = [req.body.name, req.body.location_id];
   connection.query(queryInsert, [values], (err, data) => {
     if (err) return res.json(err);
     return res.json("Language has been created!");
@@ -80,31 +77,34 @@ app.get("/words", (req, res) => {
 });
 
 app.post("/words", (req, res) => {
-  const queryInsertWord = "INSERT INTO word (word, language_id) VALUES (?)";
-  const valuesWord = [
-    req.body.word, 
-    req.body.language_id
-  ];
-  connection.query(queryInsertWord, [valuesWord], (err, data) => {
+  const queryInsert = "INSERT INTO word (word, language_id) VALUES (?)";
+  const values = [req.body.word, req.body.language_id];
+  connection.query(queryInsert, [values], (err, data) => {
     if (err) return res.json(err);
     return res.json("Word has been created!");
   });
+});
 
-  const queryInsertTranslation = "INSERT INTO translation "
-                                 "(word_id, translation_language_id, translation) "
-                                 "VALUES (?)";
+app.post("/translation", (req, res) => {
+  const queryInsert = "INSERT INTO translation ";
+  ("(word_id, translation_language_id, translation) ");
+  ("VALUES (?)");
 
-  const valuesTranslation = [
-    '(select max(word_id) from word)',
+  const values = [
+    "(select max(word_id) from word)",
     req.body.translation_language_id,
-    req.body.translation
-  ];  
+    req.body.translation,
+  ];
 
-  connection.query(queryInsertTranslation, [valuesTranslation], (err, data) => {
+  connection.query(queryInsert, [values], (err, data) => {
     if (err) return res.json(err);
-    return res.json("Translation has been created!");
-  });  
+    return res.json("Word has been created!");
+  });
+});
 
+connection.query(queryInsertTranslation, [valuesTranslation], (err, data) => {
+  if (err) return res.json(err);
+  return res.json("Translation has been created!");
 });
 
 app.listen(8800, () => {
