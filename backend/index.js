@@ -92,9 +92,10 @@ app.post("/words", (req, res) => {
 
   const queryInsertTranslation = "INSERT INTO translation "
                                  "(word_id, translation_language_id, translation) "
-                                 "VALUES ((select max(word_id) from word), ?)";
+                                 "VALUES (?)";
 
   const valuesTranslation = [
+    '(select max(word_id) from word)',
     req.body.translation_language_id,
     req.body.translation
   ];  
