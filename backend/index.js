@@ -69,8 +69,7 @@ app.post("/languages", (req, res) => {
 });
 
 app.get("/words", (req, res) => {
-  const querySelect = "SELECT * FROM "
-                      "all_words";
+  const querySelect = "SELECT * FROM all_words";
   connection.query(querySelect, (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
