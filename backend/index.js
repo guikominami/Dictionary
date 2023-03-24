@@ -80,28 +80,30 @@ app.get("/words", (req, res) => {
 });
 
 app.post("/words", (req, res) => {
-  const queryInsert = "INSERT INTO word (word, language_id) VALUES (?)";
-  const values = [
+  const queryInsertWord = "INSERT INTO word (word, language_id) VALUES (?)";
+  const valuesWord = [
     req.body.word, 
     req.body.language_id
   ];
-  connection.query(queryInsert, [values], (err, data) => {
+  connection.query(queryInsertWord, [valuesWord], (err, data) => {
     if (err) return res.json(err);
     return res.json("Word has been created!");
   });
-});
 
-app.post("/translations", (req, res) => {
-  const queryInsert = "INSERT INTO translation (word_id, translation_language_id, translation) VALUES (?)";
-  const values = [
-    req.body.word_id, 
+  const queryInsertTranslation = "INSERT INTO translation "
+                                 "(word_id, translation_language_id, translation) "
+                                 "VALUES ((select max(word_id) from word), ?)";
+
+  const valuesTranslation = [
     req.body.translation_language_id,
     req.body.translation
-  ];
-  connection.query(queryInsert, [values], (err, data) => {
+  ];  
+
+  connection.query(queryInsertTranslation, [valuesTranslation], (err, data) => {
     if (err) return res.json(err);
     return res.json("Translation has been created!");
-  });
+  });  
+
 });
 
 app.listen(8800, () => {
