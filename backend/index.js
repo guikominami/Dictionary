@@ -93,18 +93,13 @@ app.post("/translation", (req, res) => {
   const values = [
     "(select max(word_id) from word)",
     req.body.translation_language_id,
-    req.body.translation,
+    req.body.translation
   ];
 
   connection.query(queryInsert, [values], (err, data) => {
     if (err) return res.json(err);
-    return res.json("Word has been created!");
+    return res.json("Translation has been created!");
   });
-});
-
-connection.query(queryInsertTranslation, [valuesTranslation], (err, data) => {
-  if (err) return res.json(err);
-  return res.json("Translation has been created!");
 });
 
 app.listen(8800, () => {
